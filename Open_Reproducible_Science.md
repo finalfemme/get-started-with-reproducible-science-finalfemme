@@ -518,8 +518,7 @@ print('You earned {} of 5 points for converting to Celcius'.format(points))
 ```python
 rapid_city_df.plot(x='Date', y='Value', legend=False, xlabel='Year', 
                     ylabel= 'Temperature ($^\circ$C)', 
-                    title= 'Mean Maximum Temperature for Rapid City, SD',
-                      )
+                    title= 'Mean Maximum Monthly Temperature for Rapid City, SD')
 
 
 ```
@@ -527,7 +526,7 @@ rapid_city_df.plot(x='Date', y='Value', legend=False, xlabel='Year',
 
 
 
-    <Axes: title={'center': 'Mean Maximum Temperature for Rapid City, SD'}, xlabel='Year', ylabel='Temperature ($^\\circ$C)'>
+    <Axes: title={'center': 'Mean Maximum Monthly Temperature for Rapid City, SD'}, xlabel='Year', ylabel='Temperature ($^\\circ$C)'>
 
 
 
@@ -553,8 +552,9 @@ There are many other things you can do to customize your plot. Take a look at th
   * Use a bar graph instead (usually we use lines for time series, but since this is annual it could go either way)
   * Add a trend line
 
-## Average High Temperatures 
-Describe your plot in this cell in 2-3 sentences
+## High Temperatures Trending Upward in Rapid City, SD
+* Average high temperature fluctuates with the seasons.
+* However Rapid City is experiencing an overall increase in temperature.
 
 **THIS ISN'T THE END EITHER! Don't forget to reproduce your analysis in a new location!**
 
@@ -564,3 +564,53 @@ Describe your plot in this cell in 2-3 sentences
 
 ## Your turn: pick a new location and/or measurement to plot
 Below, recreate the workflow you just did in a place that interests you OR with a different measurement. See the instructions above fore how to get your URL. You will need to make your own new Markdown and Code cells below this one.
+
+
+```python
+#pandas is already loaded, so we don't need to do it again here
+#make sure that is done though
+
+#set variable
+sac_temps = ('https://www.ncei.noaa.gov/access/monitoring'
+             '/climate-at-a-glance/city/time-series/USW00023232'
+             '/tavg/all/1/1990-2023.csv')
+
+# call variable
+sac_temps
+
+#set dataframe, set -99= unknown value
+sac_df = pd.read_csv(sac_temps, header= 4, names= ['Date', 'Value'],
+                     na_values= ['-99'])
+
+#convert date format
+sac_df['Date'] = pd.to_datetime(sac_df.Date, format = '%Y%m')
+
+#convert to celsius
+sac_df.Value= (sac_df.Value - 32) * (5/9)
+
+#call dataframe
+sac_df
+
+#plot the temperature vs date
+sac_df.plot(x='Date', y='Value', legend=False, xlabel='Year', 
+                    ylabel= 'Temperature ($^\circ$C)', 
+                    title= 'Mean Monthly Temperature for Sacramento, CA Since 1990',
+                     ylim=[-0, 30] )
+
+
+
+
+```
+
+
+
+
+    <Axes: title={'center': 'Mean Monthly Temperature for Sacramento, CA Since 1990'}, xlabel='Year', ylabel='Temperature ($^\\circ$C)'>
+
+
+
+
+    
+![png](Open_Reproducible_Science_files/Open_Reproducible_Science_26_1.png)
+    
+
